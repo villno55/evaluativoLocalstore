@@ -66,8 +66,8 @@ th, td {
 }
 
 tr.retiro {
-  background: #222;
-  color: #fff;
+  background: red !important; 
+  color: #fff !important;
   font-weight: bold;
 }
 
