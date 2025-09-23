@@ -6,46 +6,47 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  
-  <div id="login">
-    
-    <h2>Ingreso a la Aplicación</h2>
-    <form id="loginForm">
-      <input type="text" id="usuario" placeholder="Usuario" required>
-      <input type="password" id="password" placeholder="Contraseña" required>
+  <div id="login-container">
+    <h2>Ingreso a la aplicación</h2>
+    <form id="login-form">
+      <label>Usuario:</label>
+      <input type="text" id="username" required>
+      <label>Contraseña:</label>
+      <input type="password" id="password" required>
       <button type="submit">Ingresar</button>
     </form>
   </div>
 
-  <div id="app" style="display:none;">
+  <div id="app-container" class="hidden">
     <header>
-      <h2>Bienvenido, <span id="nombreUsuario"></span></h2>
+      <h2>Bienvenido, <span id="user-display"></span></h2>
       <button id="logout">Salir</button>
     </header>
 
-    <main>
-      <label for="fichas">Seleccione ficha:</label>
+    <section>
+      <label for="fichas">Seleccione una ficha:</label>
       <select id="fichas"></select>
-      <table>
-        <thead>
-          <tr>
-            <th>Documento</th>
-            <th>Nombre</th>
-            <th>Ficha</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody id="tablaAprendices"></tbody>
-      </table>
-    </main>
+    </section>
 
-    <footer>
-      <p>Elaborado por:Anderson Mosquera Vega<br>
-      Tecnólogo en Análisis y Desarrollo de Software<br>
-      Ficha 3064975</p>
-    </footer>
+    <table id="tabla-aprendices">
+      <thead>
+        <tr>
+          <th>Documento</th>
+          <th>Nombre</th>
+          <th>Ficha</th>
+          <th>Programa</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
+
+  <footer>
+    <p>Elaborado por: Anderson Mosquera<br>
+    Tecnólogo en Análisis y Desarrollo de Software<br>
+    Ficha 3064975</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
