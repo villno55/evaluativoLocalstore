@@ -100,4 +100,4 @@ if (localStorage.getItem("usuario")) {
 } else {
   loginContainer.classList.remove("hidden");
   appContainer.classList.add("hidden");
-        }
+}
