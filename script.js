@@ -97,4 +97,7 @@ function mostrarAprendices(lista) {
 
 if (localStorage.getItem("usuario")) {
   mostrarApp();
-                                 }
+} else {
+  loginContainer.classList.remove("hidden");
+  appContainer.classList.add("hidden");
+        }
