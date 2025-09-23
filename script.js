@@ -1,84 +1,89 @@
-const apiUrl = "https://raw.githubusercontent.com/CesarMCuellarCha/apis/refs/heads/main/SENA-CTPI.matriculados.json";
+const loginForm = document.getElementById("login-form");
+const loginContainer = document.getElementById("login-container");
+const appContainer = document.getElementById("app-container");
+const userDisplay = document.getElementById("user-display");
+const logoutBtn = document.getElementById("logout");
+const fichasSelect = document.getElementById("fichas");
+const tablaBody = document.querySelector("#tabla-aprendices tbody");
 
-document.getElementById("loginForm").addEventListener("submit", (e) => {
+const API_URL = "https://raw.githubusercontent.com/CesarMCuellarCha/apis/refs/heads/main/SENA-CTPI.matriculados.json";
+
+loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const usuario = document.getElementById("usuario").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  if (password === "adso3064975") {
-    localStorage.setItem("usuario", usuario);
+  if (password === "adso3064975" && username !== "") {
+    localStorage.setItem("usuario", username);
     mostrarApp();
   } else {
-    alert("Credenciales incorrectas");
+    alert("Usuario o contraseña incorrectos");
   }
 });
 
 function mostrarApp() {
   const usuario = localStorage.getItem("usuario");
-  if (!usuario) return;
-
-  document.getElementById("login").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  document.getElementById("nombreUsuario").textContent = usuario;
-
-  cargarFichas();
+  if (usuario) {
+    userDisplay.textContent = usuario;
+    loginContainer.classList.add("hidden");
+    appContainer.classList.remove("hidden");
+    cargarDatos();
+  }
 }
 
-document.getElementById("logout").addEventListener("click", () => {
+logoutBtn.addEventListener("click", () => {
   localStorage.clear();
-  location.reload();
+  appContainer.classList.add("hidden");
+  loginContainer.classList.remove("hidden");
 });
 
-async function cargarFichas() {
-  const resp = await fetch(apiUrl);
-  const data = await resp.json();
+async function cargarDatos() {
+  const res = await fetch(API_URL);
+  const datos = await res.json();
 
-  const fichas = [...new Set(data.map(item => item.ficha.codigo))];
-  const select = document.getElementById("fichas");
-  select.innerHTML = "<option value=''>-- Seleccione --</option>";
-
-  fichas.forEach(codigo => {
-    const option = document.createElement("option");
-    option.value = codigo;
-    option.textContent = codigo;
-    select.appendChild(option);
+  const fichasUnicas = [...new Set(datos.map(a => a.ficha))];
+  fichasSelect.innerHTML = `<option value="">Seleccione...</option>`;
+  fichasUnicas.forEach(f => {
+    fichasSelect.innerHTML += `<option value="${f}">${f}</option>`;
   });
 
-  select.addEventListener("change", () => mostrarAprendices(data, select.value));
+  fichasSelect.addEventListener("change", () => {
+    const fichaSel = fichasSelect.value;
+    if (fichaSel) {
+      mostrarAprendices(datos.filter(a => a.ficha == fichaSel));
+
+      const infoFicha = datos.find(a => a.ficha == fichaSel);
+      if (infoFicha) {
+        localStorage.setItem("ficha", JSON.stringify({
+          codigo: infoFicha.ficha,
+          programa: infoFicha.programa,
+          nivel: infoFicha.nivel,
+          estado: infoFicha.estadoFicha
+        }));
+      }
+    }
+  });
 }
 
-function mostrarAprendices(data, codigoFicha) {
-  const tbody = document.getElementById("tablaAprendices");
-  tbody.innerHTML = "";
 
-  const aprendices = data.filter(item => item.ficha.codigo == codigoFicha);
-
-  if (aprendices.length > 0) {
-    // Guardar datos de la ficha en localStorage
-    const { ficha } = aprendices[0];
-    localStorage.setItem("ficha", JSON.stringify({
-      codigo: ficha.codigo,
-      programa: ficha.programa,
-      nivel: ficha.nivel,
-      estado: ficha.estado
-    }));
-
-    aprendices.forEach(a => {
-      const tr = document.createElement("tr");
-      if (a.estado === "Retiro Voluntario") tr.classList.add("retiro");
-      tr.innerHTML = `
-        <td>${a.documento}</td>
-        <td>${a.nombre}</td>
-        <td>${a.ficha.codigo}</td>
-        <td>${a.estado}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
+function mostrarAprendices(lista) {
+  tablaBody.innerHTML = "";
+  lista.forEach(a => {
+    const tr = document.createElement("tr");
+    if (a.estadoAprendiz === "Retiro Voluntario") {
+      tr.classList.add("retiro");
+    }
+    tr.innerHTML = `
+      <td>${a.documento}</td>
+      <td>${a.nombre}</td>
+      <td>${a.ficha}</td>
+      <td>${a.programa}</td>
+      <td>${a.estadoAprendiz}</td>
+    `;
+    tablaBody.appendChild(tr);
+  });
 }
 
-window.onload = () => {
-  if (localStorage.getItem("usuario")) {
-    mostrarApp();
-  }
-};
+if (localStorage.getItem("usuario")) {
+  mostrarApp();
+}
