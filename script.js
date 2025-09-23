@@ -4,9 +4,11 @@ const appContainer = document.getElementById("app-container");
 const userDisplay = document.getElementById("user-display");
 const logoutBtn = document.getElementById("logout");
 const fichasSelect = document.getElementById("fichas");
+const busquedaInput = document.getElementById("busqueda");
 const tablaBody = document.querySelector("#tabla-aprendices tbody");
 
 const API_URL = "https://raw.githubusercontent.com/CesarMCuellarCha/apis/refs/heads/main/SENA-CTPI.matriculados.json";
+let datosGlobal = [];
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -41,6 +43,7 @@ async function cargarDatos() {
   try {
     const res = await fetch(API_URL);
     const datos = await res.json();
+    datosGlobal = datos;
 
     const fichasUnicas = [...new Set(datos.map(a => a.FICHA))];
     fichasSelect.innerHTML = `<option value="">Seleccione...</option>`;
@@ -61,6 +64,12 @@ async function cargarDatos() {
           estado: infoFicha.ESTADO_FICHA
         }));
       }
+    });
+
+    busquedaInput.addEventListener("input", () => {
+      const texto = busquedaInput.value.toLowerCase();
+      const lista = datos.filter(a => a.PROGRAMA.toLowerCase().includes(texto));
+      mostrarAprendices(lista);
     });
   } catch (error) {
     console.error("Error al cargar datos:", error);
@@ -88,4 +97,4 @@ function mostrarAprendices(lista) {
 
 if (localStorage.getItem("usuario")) {
   mostrarApp();
-}
+  }
