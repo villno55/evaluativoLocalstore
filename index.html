@@ -6,7 +6,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app-container">
+  
+  <div id="login-container">
+    <h2>Ingreso a la aplicación</h2>
+    <form id="login-form">
+      <label>Usuario:</label>
+      <input type="text" id="username" required>
+      <label>Contraseña:</label>
+      <input type="password" id="password" required>
+      <button type="submit">Ingresar</button>
+    </form>
+  </div>
+
+  
+  <div id="app-container" class="hidden">
     <header>
       <h2>Bienvenido, <span id="user-display"></span></h2>
       <button id="logout">Salir</button>
@@ -35,7 +48,7 @@
   </div>
 
   <footer>
-    <p>Elaborado por: [Tu Nombre]<br>
+    <p>Elaborado por: vlacho<br>
     Tecnólogo en Análisis y Desarrollo de Software<br>
     Ficha 3064975</p>
   </footer>
