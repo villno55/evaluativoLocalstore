@@ -81,7 +81,7 @@ function mostrarAprendices(lista) {
   tablaBody.innerHTML = "";
   lista.forEach(a => {
     const tr = document.createElement("tr");
-    if (a.ESTADO_APRENDIZ === "Retiro Voluntario") {
+    if (a.ESTADO_APRENDIZ && a.ESTADO_APRENDIZ.toLowerCase() === "retiro voluntario") {
       tr.classList.add("retiro");
     }
     tr.innerHTML = `
@@ -100,4 +100,4 @@ if (localStorage.getItem("usuario")) {
 } else {
   loginContainer.classList.remove("hidden");
   appContainer.classList.add("hidden");
-}
+    }
