@@ -6,19 +6,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Login visible al inicio -->
+  <!-- Login -->
   <div id="login-container">
     <h2>Ingreso a la aplicación</h2>
     <form id="login-form">
-      <label>Usuario:</label>
+      <label for="username">Usuario:</label>
       <input type="text" id="username" required>
-      <label>Contraseña:</label>
+      
+      <label for="password">Contraseña:</label>
       <input type="password" id="password" required>
+      
       <button type="submit">Ingresar</button>
     </form>
   </div>
 
-  <!-- App oculta al inicio -->
+  <!-- App -->
   <div id="app-container" class="hidden">
     <header>
       <h2>Bienvenido, <span id="user-display"></span></h2>
@@ -47,10 +49,13 @@
     </table>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p>Elaborado por: [Tu Nombre]<br>
-    Tecnólogo en Análisis y Desarrollo de Software<br>
-    Ficha 3064975</p>
+    <p>
+      Elaborado por: [Tu Nombre]<br>
+      Tecnólogo en Análisis y Desarrollo de Software<br>
+      Ficha 3064975
+    </p>
   </footer>
 
   <script src="script.js"></script>
